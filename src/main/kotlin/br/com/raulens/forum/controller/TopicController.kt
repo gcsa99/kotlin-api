@@ -1,11 +1,9 @@
 package br.com.raulens.forum.controller
 
-import br.com.raulens.forum.model.Topic
+import br.com.raulens.forum.dto.CreateTopicForm
+import br.com.raulens.forum.dto.TopicView
 import br.com.raulens.forum.service.TopicService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/topics")
@@ -13,10 +11,15 @@ class TopicController(
     private val service: TopicService,
 ) {
     @GetMapping
-    fun get(): List<Topic> = service.list()
+    fun get(): List<TopicView> = service.findAll()
 
     @GetMapping("/{id}")
     fun getById(
         @PathVariable id: Long,
-    ): Topic = service.getById(id)
+    ): TopicView = service.findById(id)
+
+    @PostMapping
+    fun create(
+        @RequestBody dto: CreateTopicForm,
+    ) = service.create(dto)
 }
