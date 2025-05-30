@@ -1,7 +1,9 @@
 package br.com.raulens.forum.service
 
 import br.com.raulens.forum.dto.CreateTopicForm
+import br.com.raulens.forum.dto.DeleteTopicForm
 import br.com.raulens.forum.dto.TopicView
+import br.com.raulens.forum.dto.UpdateTopicForm
 import br.com.raulens.forum.mapper.TopicFormMapper
 import br.com.raulens.forum.mapper.TopicViewMapper
 import br.com.raulens.forum.model.Topic
@@ -36,5 +38,37 @@ class TopicService(
         topic.id = topics.size.toLong() + 1
         topics =
             topics.plus(topic)
+    }
+
+    fun update(form: UpdateTopicForm) {
+        val topic =
+            topics
+                .stream()
+                .filter { t -> t.id == form.id }
+                .findFirst()
+                .get()
+        topics =
+            topics.minus(topic).plus(
+                Topic(
+                    id = form.id,
+                    title = form.title,
+                    message = form.message,
+                    status = topic.status,
+                    author = topic.author,
+                    course = topic.course,
+                    createdAt = topic.createdAt,
+                ),
+            )
+    }
+
+    fun delete(form: DeleteTopicForm) {
+        val topic =
+            topics
+                .stream()
+                .filter { t -> t.id == form.id }
+                .findFirst()
+                .get()
+        topics =
+            topics.minus(topic)
     }
 }
