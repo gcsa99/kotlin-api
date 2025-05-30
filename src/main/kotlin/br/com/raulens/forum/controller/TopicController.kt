@@ -3,6 +3,7 @@ package br.com.raulens.forum.controller
 import br.com.raulens.forum.dto.CreateTopicForm
 import br.com.raulens.forum.dto.TopicView
 import br.com.raulens.forum.service.TopicService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -20,6 +21,6 @@ class TopicController(
 
     @PostMapping
     fun create(
-        @RequestBody dto: CreateTopicForm,
+        @RequestBody @Valid dto: CreateTopicForm,
     ) = service.create(dto)
 }
