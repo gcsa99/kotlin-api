@@ -4,6 +4,7 @@ import br.com.raulens.forum.dto.CreateTopicForm
 import br.com.raulens.forum.dto.DeleteTopicForm
 import br.com.raulens.forum.dto.TopicView
 import br.com.raulens.forum.dto.UpdateTopicForm
+import br.com.raulens.forum.exception.NotFoundException
 import br.com.raulens.forum.mapper.TopicFormMapper
 import br.com.raulens.forum.mapper.TopicViewMapper
 import br.com.raulens.forum.model.Topic
@@ -14,6 +15,7 @@ class TopicService(
     private var topics: List<Topic> = ArrayList(),
     private val topicViewMapper: TopicViewMapper,
     private val topicFormMapper: TopicFormMapper,
+    private val notFoundMessage: String = "Topic not found",
 ) {
     fun findAll(): List<TopicView> =
         topics
@@ -28,7 +30,7 @@ class TopicService(
                 .stream()
                 .filter { t -> t.id == id }
                 .findFirst()
-                .get()
+                .orElseThrow { NotFoundException(notFoundMessage) }
 
         return topicViewMapper.map(topic)
     }
@@ -47,7 +49,8 @@ class TopicService(
                 .stream()
                 .filter { t -> t.id == form.id }
                 .findFirst()
-                .get()
+                .orElseThrow { NotFoundException(notFoundMessage) }
+
         val updatedTopic =
             Topic(
                 id = form.id,
@@ -71,7 +74,7 @@ class TopicService(
                 .stream()
                 .filter { t -> t.id == form.id }
                 .findFirst()
-                .get()
+                .orElseThrow { NotFoundException(notFoundMessage) }
         topics =
             topics.minus(topic)
     }

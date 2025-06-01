@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 data class CreateTopicForm(
-    @field:NotEmpty
-    @field:Size(min = 5, max = 100)
+    @field:NotEmpty(message = "Titulo não pode ser vazio")
+    @field:Size(min = 5, max = 100, message = "Titulo deve ter entre 5 e 100 caracteres")
     val title: String,
-    @field:NotEmpty
+    @field:NotEmpty(message = "Mensagem não pode ser vazia")
     val message: String,
     @field:NotNull
     val courseId: Long,
