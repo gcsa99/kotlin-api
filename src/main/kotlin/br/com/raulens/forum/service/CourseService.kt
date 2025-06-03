@@ -1,21 +1,12 @@
 package br.com.raulens.forum.service
 
 import br.com.raulens.forum.model.Course
+import br.com.raulens.forum.repository.CourseRepository
 import org.springframework.stereotype.Service
 
 @Service
 class CourseService(
-    var courses: List<Course>,
+    private val repository: CourseRepository,
 ) {
-    init {
-        val course = Course(id = 1, name = "Spring Boot", category = "Backend")
-        courses = listOf(course)
-    }
-
-    fun findById(id: Long): Course =
-        courses
-            .stream()
-            .filter({ c -> c.id == id })
-            .findFirst()
-            .get()
+    fun findById(id: Long): Course = repository.findById(id).get()
 }

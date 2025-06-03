@@ -1,21 +1,12 @@
 package br.com.raulens.forum.service
 
 import br.com.raulens.forum.model.User
+import br.com.raulens.forum.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-    var users: List<User>,
+    private val repository: UserRepository,
 ) {
-    init {
-        val user = User(id = 1, name = "Typescripto de Spring React", email = "java@rust.go")
-        users = listOf(user)
-    }
-
-    fun findById(id: Long): User =
-        users
-            .stream()
-            .filter({ c -> c.id == id })
-            .findFirst()
-            .get()
+    fun findById(id: Long): User = repository.findById(id).get()
 }

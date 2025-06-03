@@ -8,6 +8,7 @@ import br.com.raulens.forum.service.TopicService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 
@@ -25,6 +26,7 @@ class TopicController(
     ): TopicView = service.findById(id)
 
     @PostMapping
+    @Transactional
     fun create(
         uriBuilder: UriComponentsBuilder,
         @RequestBody @Valid form: CreateTopicForm,
@@ -35,6 +37,7 @@ class TopicController(
     }
 
     @PutMapping
+    @Transactional
     fun update(
         @RequestBody @Valid form: UpdateTopicForm,
     ): ResponseEntity<TopicView> {
@@ -43,6 +46,7 @@ class TopicController(
     }
 
     @DeleteMapping
+    @Transactional
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     fun delete(
         @RequestBody @Valid form: DeleteTopicForm,
