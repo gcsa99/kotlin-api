@@ -1,9 +1,6 @@
 package br.com.raulens.forum.controller
 
-import br.com.raulens.forum.dto.CreateTopicForm
-import br.com.raulens.forum.dto.DeleteTopicForm
-import br.com.raulens.forum.dto.TopicView
-import br.com.raulens.forum.dto.UpdateTopicForm
+import br.com.raulens.forum.dto.*
 import br.com.raulens.forum.service.TopicService
 import jakarta.validation.Valid
 import org.springframework.cache.annotation.CacheEvict
@@ -64,4 +61,7 @@ class TopicController(
     fun delete(
         @RequestBody @Valid form: DeleteTopicForm,
     ) = service.delete(form)
+
+    @GetMapping("/report")
+    fun report(): List<TopicByCategoryReportDto> = service.report()
 }

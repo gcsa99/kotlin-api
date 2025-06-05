@@ -1,9 +1,6 @@
 package br.com.raulens.forum.service
 
-import br.com.raulens.forum.dto.CreateTopicForm
-import br.com.raulens.forum.dto.DeleteTopicForm
-import br.com.raulens.forum.dto.TopicView
-import br.com.raulens.forum.dto.UpdateTopicForm
+import br.com.raulens.forum.dto.*
 import br.com.raulens.forum.exception.NotFoundException
 import br.com.raulens.forum.mapper.TopicFormMapper
 import br.com.raulens.forum.mapper.TopicViewMapper
@@ -58,4 +55,6 @@ class TopicService(
     fun delete(form: DeleteTopicForm) {
         repository.deleteById(form.id)
     }
+
+    fun report(): List<TopicByCategoryReportDto> = repository.report()
 }
