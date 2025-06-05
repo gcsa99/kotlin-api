@@ -6,6 +6,10 @@ import br.com.raulens.forum.dto.TopicView
 import br.com.raulens.forum.dto.UpdateTopicForm
 import br.com.raulens.forum.service.TopicService
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +22,10 @@ class TopicController(
     private val service: TopicService,
 ) {
     @GetMapping
-    fun get(): List<TopicView> = service.findAll()
+    fun get(
+        @RequestParam(required = false) courseName: String?,
+        @PageableDefault(size = 5, sort = ["createdAt"], direction = Sort.Direction.DESC) pagination: Pageable,
+    ): Page<TopicView> = service.findAll(courseName, pagination)
 
     @GetMapping("/{id}")
     fun getById(
